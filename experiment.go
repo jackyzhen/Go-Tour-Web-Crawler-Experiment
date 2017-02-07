@@ -20,7 +20,7 @@ func naiveCrawl() {
 func naiveCacheCrawl() {
   start := time.Now()
   for i := 0; i < repetitions; i ++ {
-  	NaiveCacheCrawl("http://golang.org/", 4, naiveCacheFetcher, naiveCache)
+  	NaiveCacheCrawl("http://golang.org/", 4, fetcher, naiveCache)
   }
   elapsed := time.Since(start)
   fmt.Printf("NAIVE CACHE: %d repetitions took %s\n", repetitions, elapsed)
@@ -31,7 +31,7 @@ func parallelCrawl() {
   var wg sync.WaitGroup
   for i := 0; i < repetitions; i ++ {
     wg.Add(1)
-    go ParallelCrawl("http://golang.org/", 4, &parallelFetcher, &wg)
+    go ParallelCrawl("http://golang.org/", 4, fetcher, &wg)
   }
   wg.Wait()
   elapsed := time.Since(start)
