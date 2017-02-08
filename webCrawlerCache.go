@@ -1,17 +1,15 @@
 package main
 
-var naiveCache = make(map[string]string)
-
 // NaiveCacheCrawl uses fetcher to recursively crawl
 // pages starting with url, to a maximum of depth.
 // use a cache to prevent refetching urls
-func NaiveCacheCrawl(url string, depth int, fetcher Fetcher, naiveCache map[string]string) {
+func NaiveCacheCrawl(url string, depth int, fetcher Fetcher, cache map[string]string) {
 	if depth <= 0 {
 		return
 	}
   
 	_, urls, err := fetcher.Fetch(url)
-  naiveCache[url] = "cached"
+  cache[url] = "cached"
 	if err != nil {
 		// fmt.Println(err)
 		return
@@ -19,8 +17,8 @@ func NaiveCacheCrawl(url string, depth int, fetcher Fetcher, naiveCache map[stri
 	// fmt.Printf("found: %s %q\n", url, body)
   
 	for _, u := range urls {
-    if _, ok := naiveCache[u]; !ok {
-		  NaiveCacheCrawl(u, depth-1, fetcher, naiveCache)
+    if _, ok := cache[u]; !ok {
+		  NaiveCacheCrawl(u, depth-1, fetcher, cache)
     }
 	}
 	return

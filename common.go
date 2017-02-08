@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"sync"
+)
 
 // Fetcher type interface
 type Fetcher interface {
@@ -57,3 +60,28 @@ var fetcher = fakeFetcher{
 		},
 	},
 }
+
+// SafeCache is a concurrency safe cache
+type SafeCache struct {
+	v   map[string]string
+	mux sync.Mutex
+}
+
+func (c *SafeCache) Write(key string) {
+	c.mux.Lock()
+	// Lock so only one goroutine at a time can access the map c.v.
+	c.v[key] = "cached"
+	c.mux.Unlock()
+}
+
+// Value returns the current value of the counter for the given key.
+func (c *SafeCache) Value(key string) (string, bool) {
+	c.mux.Lock()
+	// Lock so only one goroutine at a time can access the map c.v.
+	defer c.mux.Unlock()
+	value, ok := c.v[key]
+	return value, ok
+}
+
+var cache = make(map[string]string)
+var safeCache = SafeCache{v: make(map[string]string)}
