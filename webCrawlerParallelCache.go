@@ -1,3 +1,5 @@
+// implements parallel and cache via sync wait group and a concurrent map
+
 package main
 
 import (

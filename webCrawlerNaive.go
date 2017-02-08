@@ -1,3 +1,5 @@
+// base implementation with no parallel and no cache.
+
 package main
 
 // NaiveCrawl uses fetcher to recursively crawl

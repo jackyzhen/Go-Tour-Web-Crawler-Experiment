@@ -50,10 +50,19 @@ func parallelCacheCrawl() {
   fmt.Printf("PARALLEL CACHE CRAWL: %d repetitions took %s\n", repetitions, elapsed)
 }
 
+func onlineCrawl() {
+  start := time.Now()
+  for i := 0; i < repetitions; i ++ {
+    OnlineCrawl("http://golang.org/", 4, fetcher)
+  }
+  elapsed := time.Since(start)
+  fmt.Printf("ONLINE CRAWL: %d repetitions took %s\n", repetitions, elapsed)
+}
 
 func main() {
   naiveCrawl()
   naiveCacheCrawl()
   parallelCrawl()
   parallelCacheCrawl()
+  onlineCrawl()
 }

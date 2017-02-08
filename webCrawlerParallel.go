@@ -1,3 +1,5 @@
+// implements parallel crawl with sync wait group, with no caching.
+
 package main
 
 import (

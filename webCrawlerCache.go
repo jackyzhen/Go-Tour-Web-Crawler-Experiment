@@ -1,3 +1,5 @@
+// implements caching with a dictionary (non concurrent and not parallel)
+
 package main
 
 // NaiveCacheCrawl uses fetcher to recursively crawl
